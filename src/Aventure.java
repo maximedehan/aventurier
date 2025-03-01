@@ -1,21 +1,17 @@
 
-import exceptions.ObstacleException;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import utils.DirectionsUtils;
 import utils.SpecialStringsUtils;
 
 public class Aventure {
 
-  public Aventure() {
-  }
-
-  public void run() {
+  /*
+    Cette méthode contient toute la logique du code avec son algorithme décrit grâce aux commentaires.
+  */
+  public void run(String fileTest) {
 	
-	String cartePath = "files/carte v2.txt";
-	String guidePath = "files/guide.txt";
+	String cartePath = "files/carte v2.txt"; // La carte ne bouge pas donc cette string est écrite en dur ...
+	String guidePath = "files/" + fileTest; // Par contre, ici, nous avons besoin de donner la main à l'utilisateur pour faciliter les tests.
 	
 	// Initialisation des variables de déplacements
 	int coordX = 0; // coordonnée du déplacement horizontal
@@ -36,11 +32,13 @@ public class Aventure {
 	  // Transformation de la carte en matrice pour faciliter le traitement des déplacements
 	  matrixCarte = reader.getMatrixCarte();
     } catch (IOException e) {
-      System.out.println("IO exception retournée !");
-      System.out.println(e);
+	  // Au cas où un problème technique survient au niveau du reader ou du buffer ou si un fichier n'existe pas ...
+      System.err.println("Erreur sur un fichier détectée !");
+      System.err.println(e);
+	  System.exit(0); // On sort du code dans le cas d'une erreur technique.
     }
 		  
-	// Déplacements sur la carte 
+	// Paul peut se déplacer sur la carte grâce à ses coordonnées d'origine, son "gps" (les directions) et grâce à la carte matrixée
 	Aventurier paul = new Aventurier(coordX, coordY, directions, matrixCarte);
 	paul.move();
   }
