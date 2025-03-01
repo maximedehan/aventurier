@@ -1,3 +1,4 @@
+
 import exceptions.ObstacleException;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -23,28 +24,19 @@ public class Aventure {
 	String[][] matrixCarte = new String[20][20]; // représentation matricielle de la carte
 	
     try {
-	  // Lecture du fichier de guide
-      FileReader readerGuide = new FileReader(guide); 
-	  BufferedReader bufferedReaderGuide = new BufferedReader(readerGuide);
-	  String line;
-	  ArrayList<String> linesGuide = new ArrayList<String>();
-	  while ((line = bufferedReaderGuide.readLine()) != null) {
-		line.replaceAll(SpecialStringsUtils.ESC, SpecialStringsUtils.BLANK); // On enlève les espaces trouvés dans la ligne
-		linesGuide.add(line);
-      }
-	  
 	  // Sauvegarde des données (coordonnées x, y, les directions)
-	  String[] coordXY = linesGuide.get(0).split(SpecialStringsUtils.COMMA);
-	  coordX = Integer.parseInt(coordXY[0]); 
+	  ReaderFiles reader = new ReaderFiles();
+	  ArrayList<String> linesGuide = reader.readGuide(guide);
+	  String[] coordXY = linesGuide.get(0).split(SpecialStringsUtils.COMMA);	
+	  coordX = Integer.parseInt(coordXY[0]);
 	  coordY = Integer.parseInt(coordXY[1]);
 	  directions = linesGuide.get(1).split(SpecialStringsUtils.BLANK);
 	  
-	  bufferedReaderGuide.close();
-      readerGuide.close();
-	  
 	  // Transformation de la carte en matrice pour faciliter le traitement des déplacements
-	  FileReader readerCarte = new FileReader(carteV2); 
+	  FileReader readerCarte = new FileReader(this.carteV2); 
 	  BufferedReader bufferedReaderCarte = new BufferedReader(readerCarte);
+	  
+	  String line;
 	  int i = 0;
 	  while ((line = bufferedReaderCarte.readLine()) != null) {
 		for (int j=0; j<line.split(SpecialStringsUtils.BLANK).length; j++) {
