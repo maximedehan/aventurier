@@ -61,7 +61,7 @@ public class Aventurier {
 	
 	try {
 		for (String direction : this.getDirections()) {
-			 labelDirection = this.move1time(direction, this.getCoordX(), this.getCoordY());
+			 labelDirection = move1time(direction, this);
 			 String valMatrix = matrixCarte[this.getCoordY()][this.getCoordX()];
 			 
 			 System.out.print(valMatrix); 
@@ -87,26 +87,26 @@ public class Aventurier {
 	Cette méthode gère seulement 1 déplacement dans une direction donnée.
 	Elle retourne un label de direction utile à l'aventurier, pour lui rappeler dans quelle direction il va.
   */
-  public String move1time(String direction, int currentX, int currentY) {
+  public String move1time(String direction, Aventurier av) {
 	switch (direction) {
 			case DirectionsUtils.SUD:
-				this.setCoordY(currentY+1);
+				av.coordY++;
 				labelDirection = DirectionsUtils.LABEL_SUD;
 				break;
 			case DirectionsUtils.EST:
-				this.setCoordX(currentX+1);
+				av.coordX++;
 				labelDirection = DirectionsUtils.LABEL_EST;
 				break;
 			case DirectionsUtils.NORD:
-				this.setCoordY(currentY-1);
+				av.coordY--;
 				labelDirection = DirectionsUtils.LABEL_NORD;
 				break;
 			case DirectionsUtils.OUEST:
-				this.setCoordX(currentX-1);
+				av.coordX--;
 				labelDirection = DirectionsUtils.LABEL_OUEST;
 				break;
 	}
-		 
+
 	return labelDirection; 
   }
 }

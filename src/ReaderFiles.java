@@ -63,7 +63,7 @@ public class ReaderFiles {
 	  
 	  String line;
 	  int i = 0;
-	  String[][] matrixCarte = new String[20][20]; // La taille 20 20 de la carte est en écrite en dur pour le moment.
+	  String[][] matrixCarte = new String[20][20]; // La taille 20 20 de la carte est écrite en dur pour le moment.
 	  while ((line = bufferedReaderCarte.readLine()) != null) {
 		for (int j=0; j<line.split(SpecialStringsUtils.BLANK).length; j++) {
 			matrixCarte[i][j] = line.split(SpecialStringsUtils.BLANK)[j];
