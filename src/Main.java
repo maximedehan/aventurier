@@ -6,7 +6,8 @@ import utils.SpecialStringsUtils;
 /* 
   Point d'entrée du programme avec pré-filtre 
   sur le nom du fichier de guide saisi par 
-  l'utilisateur dans la commande. 
+  l'utilisateur dans la commande.
+  Exemple de commande à lancer après compilation réussie : java Main "guide test 1.txt"
 */
 public class Main {
   public static void main(String[] args) {
