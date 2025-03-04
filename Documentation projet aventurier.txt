@@ -109,7 +109,7 @@ Tester en testant la commande d'execution de différentes manières :
 - Changer également le contenu des fichiers txt pour tester de manière plus approndie et mettre à l'épreuve les différentes exceptions.
 
 
-IV) Les améliorations possibles
+V) Les améliorations possibles
 
 - Programmation en dégradé due à l'absence d'IDE (par exemple, la mise en forme du code avec les espaces, tabulations, la complétion automatique, les raccourcis clavier, ...).
 - J'ai testé une seule méthode dans mon test unitaire, il aurait fallu une couverture de code plus grande.
