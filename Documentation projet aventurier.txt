@@ -1,0 +1,131 @@
+
+****************************************
+**** LE PROJET "AVENTURIER" (GUIDE) **** 
+****************************************
+
+0) Les objectifs
+
+Modéliser les déplacements d'un personnage à partir de deux fichiers txt :
+- une carte au format UTF-8 contenant des bois # infranchissables et des blancs (les cases où le personnage peut se déplacer).
+- un fichier de paramètres contenant les coordonnées de depart et les directions cardinales (S,N,E,O).
+
+
+I) Les outils
+
+- Version JAVA (la toute dernière) :
+	java 23.0.2 2025-01-21
+	Java(TM) SE Runtime Environment (build 23.0.2+7-58)
+	Java HotSpot(TM) 64-Bit Server VM (build 23.0.2+7-58, mixed mode, sharing)
+- JUNIT 5
+- Notepad++ en remplacement de IntelliJ beaucoup trop consommateur de mémoire pour mon PC personnel (windows 10, RAM 4Go).
+- GITHUB pour le dépôt des sources et GIT CMD pour l'execution des commandes GIT et des fichiers java (compilation / execution)
+
+
+II) L'algorithme
+
+- Saisie utilisateur du nom de fichier de test ("guide test 1.txt" ou "guide test 2.txt")
+- Contrôle sur le nom du fichier. 
+	Si succès, on lance "l'aventure" (le coeur du code).
+	Sinon, on soulève une exception avec un message d'erreur explicite du type :
+	 "Veuillez saisir un nom de fichier valide à la fin de votre commande ..."
+	 On sort de l'algorithme.
+- Initialisation des paths des fichiers : "carte v2.txt" et "guide test N.txt"
+- Récupération des données du fichier "guide test N.txt" (les coordonnées (x,y) et les directions)
+  NB: Les coordonnées x correspondent aux déplacements horizontaux.
+	  Les coordonnées y correspondent aux déplacements verticaux.
+- Transformation de la carte en matrice (un tableau 2D, indices i et j) pour faciliter le traitement des déplacements
+  NB : correspondance des coordonnées (x,y) de la carte avec les indices (i,j) de la matrice :
+       x correspond à j
+	   y correspond à i
+- Si la récupération des données fichiers est OK :
+	On lance le déplacement de l'aventurier selon les paramètres rentrés dans le fichier "guide test N.txt"
+	Pour chaque direction :
+		Si la direction mène à un bois (#) => ObstacleException est générée avec message explicite 
+		Si la direction mène au-delà de la carte => ArrayIndexOutOfBoundsException est générée avec message explicite
+		Sinon on se déplace d'une case
+  Sinon :
+	Si un problème technique survient au niveau du reader ou du buffer ou si un fichier n'existe pas ...
+	Une IOException est générée avec un message d'erreur explicite : "Erreur sur un fichier détectée !"
+	On sort de l'algorithme.
+
+Une fois un premier programme écrit tout entier dans Main.java, c'est à ce moment que j'ai décidé d'architecturer le code (paragraphe suivant).
+En effet, c'est en écrivant un premier jet d'algorithme puis en implémentant quelques lignes de code que j'ai eu le recul nécessaire pour y penser.
+	
+	
+III) L'architecture du code 
+
+4 fichiers principaux à la racine (/src) :
+- Main.java (point d'entrée du programme prenant comme paramètre le nom de fichier de test
+- Aventure.java (contient l'essentiel de l'algorithme)
+- ReaderFiles.java (contient les attributs et les méthodes relatives à la lecture des fichiers)
+- Aventurier.java (contient les attributs et les méthodes relatives aux déplacements de l'aventurier selon les données des fichiers carte et guide)
+
+Repertoire files (/src/files)
+Contient les fichiers : "carte v2.txt" et les fichiers "guide test 1.txt" (coordonnées de départ + les directions)
+
+Repertoire exceptions (/src/exceptions)
+Contient les classes d'exceptions personnalisées.
+
+Repertoire utils (/src/utils)
+Contient les constantes utiles à tout le programme (les directions, les labels direction, les caractères spéciaux)
+
+Repertoire test (/src/tests)
+Contient les tests unitaires et un fichier .bat pour lancer en une commande les tests.
+
+
+IV) Tester le code 
+
+Ouvrir un terminal, dans le répertoire src/ , lancer les commandes :
+javac Main.java (compilation)
+java Main "guide test 1.txt" (execution)
+
+Tester en testant la commande d'execution de différentes manières :
+- java Main "guide test 1.txt" affichera dans la console :
+  Initialisation du déplacement en (3,0)
+  Déplacement au Sud (3,1)
+  Déplacement au Sud (3,2)
+  Déplacement au Sud (3,3)
+  Déplacement au Sud (3,4)
+  Déplacement à l'Est (4,4)
+  Déplacement à l'Est (5,4)
+  Déplacement à l'Est (6,4)
+  Déplacement à l'Est (7,4)
+  Déplacement à l'Est (8,4)
+  Déplacement à l'Est (9,4)
+  Déplacement au Nord (9,3)
+  Déplacement au Nord (9,2)
+  Fin du déplacement en (9,2)
+  
+- java Main "guide test 2.txt" affichera dans la console : 
+  Initialisation du déplacement en (6,7)
+  Déplacement à l'Ouest (5,7)
+  Déplacement à l'Ouest (4,7)
+# Déplacement au Nord impossible (bois imperméable en (4,6))
+
+- java Main "guide test.txt" affichera dans la console :
+  Veuillez saisir un nom de fichier valide à la fin de votre commande.
+  Exemple de commande : java Main "guide test 1.txt"
+  
+- Changer également le contenu des fichiers txt pour tester de manière plus approndie et mettre à l'épreuve les différentes exceptions.
+
+
+IV) Les améliorations possibles
+
+- Programmation en dégradé due à l'absence d'IDE (par exemple, la mise en forme du code avec les espaces, tabulations, la complétion automatique, les raccourcis clavier, ...).
+- J'ai testé une seule méthode dans mon test unitaire, il aurait fallu une couverture de code plus grande.
+- Sans IDE, je ne suis pas arrivé à tester directement les tests unitaires, j'ai donc dû tester à partir de la plateforme CodeAcademy et copier coller la classe de test dans mon projet pour vous montrer mon travail, sur un exemple simple.
+- Homogénéité de la langue (soit Français soit Anglais, au lieu du "Franglais" dans les noms de variables, de classes, ...).
+- La déclaration de la matrice est de longueur fixe (20x20) au lieu de calculer la hauteur/largeur de la carte puis de déclarer une matrice de mêmes dimensions.
+- Utilisation d'une BDD pour historiser les coordonnées dans une table.
+- Un petit formulaire pour saisir plus facilement qu'en ligne de commande le nom du fichier de guide test.
+- Absence d'utilisation de Maven (dernière version 3.9) pour assister la conception technique du projet (l'absence de pom.xml en découle).
+- Absence d'utilisation de framework type Spring (dernière version Spring 6).
+
+
+
+
+
+
+
+
+
